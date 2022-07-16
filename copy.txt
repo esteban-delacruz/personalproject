@@ -1,0 +1,70 @@
+app.js
+import React from 'react'
+import Login from './components/Login';
+
+export default function App() {
+  return (
+    <div>
+      <Login/>
+    </div>
+  )
+}
+index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { StateProvider } from './utils/StateProvider';
+import reducer, {initialState} from './utils/reducer';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <StateProvider initialState={initialState} reducer={reducer}> 
+
+    
+    <App />
+    </StateProvider>
+  </React.StrictMode>
+);
+
+reducer.js
+export const initialState ={
+    token:null,
+};
+
+const reducer = (state,action) => {
+    switch (action.type){
+        default:
+            return state;
+    }
+};
+
+export default reducer;
+StateProvider.jsx
+import { createContext,useContext,useReducer } from "react";
+
+export const StateContext = createContext();
+
+export const StateProvider = ({children,initialState,reducer}) => (
+    <StateContext.Provider value = {useReducer(reducer, initialState)}>
+        {children}
+    </StateContext.Provider>
+);
+
+export const useStateProvider = () => useContext(StateContext);
+
+login.jsx
+import React from 'react';
+import styled from 'styled-components';
+
+export default function Login() {
+  return (
+    <Container> 
+    <img src = '' alt = ''/>
+    <button> Connect Spotify </button>
+    </Container>
+  );
+}
+
+const Container = styled.div;
