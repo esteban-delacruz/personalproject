@@ -6,39 +6,52 @@ const handleClick = () => {
    //const response_type = 'code';
    const redirectUrl = "http://localhost:3000/callback";
    const apiUrl = "https://accounts.spotify.com/authorize";
-   const scope = ["user-read-email","user-read-private","ugc-image-upload","user-modify-playback-state","user-read-playback-state","user-read-currently-playing","user-read-recently-played","user-read-playback-position","user-top-read"];
+   const scope = ["streaming",
+   "user-library-read",
+   "user-library-modify",
+   "user-read-private",
+   "user-read-email",
+   "user-modify-playback-state",
+   "user-read-playback-state",
+   "user-read-currently-playing",
+   "user-read-recently-played",
+   "user-top-read",];
    window.location.href = `${apiUrl}?client_id=${clientID}&redirect_uri=${redirectUrl}&scope=${scope.join(" ")}&response_type=token&show_dialog=true`;
 };
 export default function Login() {
   return (
     <Container> 
-    <img src = 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Black.png' alt = 'spotify logo' />
+    <img src = 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png' alt = 'spotify logo' />
     <button onClick ={handleClick}> Connect Spotify </button>
+    <div className='watermark'> 2022 -- Tommy Ngo Spotify API (Last Updated: 7/25/22)</div>
     </Container>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgb(30,200,96);
-  gap: 5rem;
-  img 
-  {
-    height: 20vh;
-  }
-    button 
-    {
-        padding: 1rem 5rem;
-        border-radius: 5rem;
-        border: none;
-        background-color: black;
-        color: #49f585;
-        font-size: 1.4rem;
-        cursor: pointer;
-    }
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+height: 100vh;
+width: 100vw;
+background-color: #202020;
+gap: 5rem;
+img {
+  height: 20vh;
+}
+button {
+  padding: 1rem 5rem;
+  border-radius: 5rem;
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+div {
+  font-size: 20px;
+  color: white;
+  
+}
 `;
