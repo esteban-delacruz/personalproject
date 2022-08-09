@@ -8,6 +8,7 @@ import { useStateProvider } from "../utils/StateProvider";
 import axios from "axios";
 import { reducerCases } from "../utils/Constant";
 import SearchResults from "./SearchResults";
+import Me from "./Me/Me"
 
 function Spotify() {
   const [query , setQuery] = useState('');
@@ -54,6 +55,7 @@ function Spotify() {
       <div className="spotify__body">
         <Sidebar setSearchDetails={setSearchDetails} />
         <div className="body " ref={bodyRef} onScroll={bodyScrolled}>
+          <Me/>
           <NavBar navBackground={navBackground} query= {query} setQuery={setQuery} onSearch={onSearch}/>
           <div className="body__contents">
             {searchDetails? <SearchResults searchDetails = {searchDetails}/> : <Body  headerBackground={headerBackground}  />}
