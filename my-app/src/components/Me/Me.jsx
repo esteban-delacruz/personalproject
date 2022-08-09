@@ -6,6 +6,8 @@ import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
   const [{ token }, dispatch] = useStateProvider();
+  let userNumber = .5;
+
 
   // Grabbing About Me
   const [userName, setUserName] = useState("");
@@ -13,11 +15,10 @@ export default function Me() {
 
   // Grabbing Top Tracks
   const [topTracks, setTopTracks] = useState([]);
-  let danceabilities = [];
 
   // Audio Features
   const [audioFeatures, setAudioFeatures] = useState("");
-
+  const [danceabilities, setDanceabilities ] = useState([]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -30,10 +31,9 @@ export default function Me() {
           },
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
       setUserName(response.data.display_name);
-      setProfileImage(response.data.images[0].url);
-      //setProfileImage(response.data.images[0] ? response.data.images[0].url : null);
+      setProfileImage(response.data.images[0] ? response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');
     };
 
     const getTopTracks = async () => {
@@ -48,7 +48,7 @@ export default function Me() {
       );
       for(let i = 0;i<response.data.items.length;i++)
       {
-        setTopTracks(response.data.items[i].id);
+        //setTopTracks(response.data.items[i].id);
         getTrackAudioFeatures(response.data.items[i].id);
       }
     };
@@ -63,19 +63,28 @@ export default function Me() {
           },
         }
       );
-      danceabilities.push(response.data.danceability);
+      setDanceabilities(danceabilities => [...danceabilities,response.data.danceability]);
     };
 
     getUserData();
     getTopTracks();
-    console.log(danceabilities);
+    
+    const calculateDance = () => {
+      console.log(userNumber);
+    }
+  
+    calculateDance();
+
   }, [token, dispatch]);
 
   
+
   return (
     <Container>
-      <h1>{userName}</h1>
-      <p> {danceabilities} </p>
+      <h1>Hey Welcome, {userName}!</h1>
+      {/* <ul>
+        {danceabilities.map(items => <li> {items} </li>)}
+      </ul> */}
       <img src={userProfileImage} />
     </Container>
   );
