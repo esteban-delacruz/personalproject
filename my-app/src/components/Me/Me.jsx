@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { reducerCases } from "../../utils/Constant";
+//import { reducerCases } from "../../utils/Constant";
 import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
@@ -77,13 +77,11 @@ export default function Me() {
         let newDistance = Math.abs(danceabilities[i]-userNumber);
         if(i==danceabilities.length)
         {
-          //console.log("Distance: "+ distance + "   I: "+i);
           break;
         }
-        else if(distance > newDistance)    //10 < .3
+        else if(distance > newDistance)
         {
           distance = newDistance;
-          //console.log("Distance: "+ distance + "   I: "+i);
           j=i+1;
           i=0;
           continue;
@@ -101,19 +99,84 @@ export default function Me() {
   return (
     <Container>
       <h1>Hey Welcome, {userName}!</h1>
-       <ul>
+       {/* <ul>
         {danceabilities.map(items => <li> {items} </li>)}
-      </ul>
-      {/* <img src={userProfileImage} /> */}
+      </ul> */}
+      <h3>
+      <label for="dance">On a scale of 1(Less) to 10(More)<br></br> How much are you wanting to dance: </label></h3><br></br>
+      <select name="dance" id="dance">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <input type="submit" value="Submit"/>
+      <img src={userProfileImage} />
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 400px;
+  height: 500px;
+  font-family: "Raleway";
+  font-size: 30px;
   width: 100%;
+  color: white;
   background-color: #181818;
   border-top: 1px solid #282828;
-  align-items: center;
+  text-align: center;
+  
   justify-content: center;
+  img {
+    height: 20vh;
+    width: 20vh;
+  }
+  input {
+    align-items: center;
+    appearance: none;
+    background-color: #fff;
+    border-radius: 24px;
+    border-style: none;
+    box-shadow: rgb(0 0 0 / 20%) 0 3px 5px -1px, rgb(0 0 0 / 14%) 0 6px 10px 0, rgb(0 0 0 / 12%) 0 1px 18px 0;
+    box-sizing: border-box;
+    color: #3c4043;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-family: "Google Sans",Roboto,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    justify-content: center;
+    letter-spacing: .25px;
+    line-height: normal;
+    max-width: 100%;
+    overflow: visible;
+    padding: 2px 24px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+  }
+  select 
+  {
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+    height: 40px;
+    float: none;
+    
+    padding: 0px 30px;
+    font-size: 19px;
+    
+    color: black;
+    background-color: #ffffff;
+    border: 2px solid #cccccc;
+    
+  }
 `;
