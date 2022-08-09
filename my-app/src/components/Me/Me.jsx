@@ -6,7 +6,8 @@ import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
   const [{ token }, dispatch] = useStateProvider();
-  let userNumber = .5;
+  let userNumber = .37; 
+  let distance = 10;
 
 
   // Grabbing About Me
@@ -48,7 +49,6 @@ export default function Me() {
       );
       for(let i = 0;i<response.data.items.length;i++)
       {
-        //setTopTracks(response.data.items[i].id);
         getTrackAudioFeatures(response.data.items[i].id);
       }
     };
@@ -68,24 +68,43 @@ export default function Me() {
 
     getUserData();
     getTopTracks();
-    
-    const calculateDance = () => {
-      console.log(userNumber);
+
+    const calculateDance = async () => 
+    {
+      let i = 0; let j =0;
+      while(true)
+      {
+        let newDistance = Math.abs(danceabilities[i]-userNumber);
+        if(i==danceabilities.length)
+        {
+          //console.log("Distance: "+ distance + "   I: "+i);
+          break;
+        }
+        else if(distance > newDistance)    //10 < .3
+        {
+          distance = newDistance;
+          //console.log("Distance: "+ distance + "   I: "+i);
+          j=i+1;
+          i=0;
+          continue;
+        }       
+        else
+        {
+          i++;
+        }
+      }
+      console.log(userNumber, j);
     }
-  
     calculateDance();
-
   }, [token, dispatch]);
-
-  
 
   return (
     <Container>
       <h1>Hey Welcome, {userName}!</h1>
-      {/* <ul>
+       <ul>
         {danceabilities.map(items => <li> {items} </li>)}
-      </ul> */}
-      <img src={userProfileImage} />
+      </ul>
+      {/* <img src={userProfileImage} /> */}
     </Container>
   );
 };
