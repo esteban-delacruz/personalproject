@@ -56,10 +56,6 @@ function Spotify() {
         <Sidebar setSearchDetails={setSearchDetails} />
         <div className="body " ref={bodyRef} onScroll={bodyScrolled}>
           <Me/>
-          <NavBar navBackground={navBackground} query= {query} setQuery={setQuery} onSearch={onSearch}/>
-          <div className="body__contents">
-            {searchDetails? <SearchResults searchDetails = {searchDetails}/> : <Body  headerBackground={headerBackground}  />}
-          </div>
         </div>
       </div>
       <div className="spotify__footer">

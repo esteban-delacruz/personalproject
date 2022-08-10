@@ -38,7 +38,8 @@ width: 100vw;
 background-color: #202020;
 gap: 5rem;
 img {
-  height: 20vh;
+  height: 25%;
+  width:45%;
 }
 button {
   padding: 1rem 5rem;
@@ -49,9 +50,8 @@ button {
   font-size: 1.4rem;
   cursor: pointer;
 }
-div {
+.watermark {
   font-size: 20px;
   color: white;
-  
 }
 `;

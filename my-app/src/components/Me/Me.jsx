@@ -1,13 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-//import { reducerCases } from "../../utils/Constant";
+import styles from "./me.css";
 import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
   const [{ token }, dispatch] = useStateProvider();
-  let userNumber = .52; 
-  let distance = 10;
 
   // Grabbing About Me
   const [userName, setUserName] = useState("");
@@ -16,9 +14,12 @@ export default function Me() {
   // Grabbing Top Tracks
   const [topTracks, setTopTracks] = useState([]);
 
-  // Audio Features
+  // Grabbing Audio Features
   const [audioFeatures, setAudioFeatures] = useState("");
   const [danceabilities, setDanceabilities ] = useState([]);
+
+  //
+  const [danceValue, setDanceValue] = useState(0);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -29,8 +30,7 @@ export default function Me() {
           },
         }).then((response) => {
           setUserName(response.data.display_name);
-          setProfileImage(response.data.images[0] ? 
-            response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');    
+          setProfileImage(response.data.images[0] ? response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');    
         });
     };
 
@@ -42,6 +42,7 @@ export default function Me() {
           },
         }
       ).then((response) => {
+        setTopTracks(response.data.items);
         for(let i = 0;i<response.data.items.length;i++)
         {
           getTrackAudioFeatures(response.data.items[i].id);
@@ -63,13 +64,14 @@ export default function Me() {
 
     getUserData();
     getTopTracks();
-
+    
   }, [token, dispatch]);
   
   const calculateDance = () => {
     let i = 0; let j = 0;
+    let distance = 1;
     while (true) {
-      let newDistance = Math.abs(danceabilities[i] - userNumber);
+      let newDistance = Math.abs(danceabilities[i] - danceValue);
       if (i === danceabilities.length) {
         break;
       } else if (distance > newDistance) {
@@ -81,81 +83,34 @@ export default function Me() {
         i++;
       }
     }
-  };
+    console.log(topTracks[j].name);
+  }; 
+
+  const onSelectDanceValue = (event) => {
+    setDanceValue(event.target.value)
+  } ;
 
   return (
-    <Container>
-      <h1>Hey Welcome, {userName}!</h1>
-      <img src={userProfileImage} />
-      <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
-      <select name="dance" id="dance">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
-      <input type="submit" value="Submit"/>
-    </Container>
+    <div className='main-container'>
+      <div className='main-content'>
+        <h1>Hey Welcome, {userName}!</h1>
+        <img alt = 'profileImage'src={userProfileImage} />
+        <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
+        <select onChange={onSelectDanceValue} name="dance" id="dance">
+          <option value={.1}>1</option>
+          <option value={.2}>2</option>
+          <option value={.3}>3</option>
+          <option value={.4}>4</option>
+          <option value={.5}>5</option>
+          <option value={.6}>6</option>
+          <option value={.7}>7</option>
+          <option value={.8}>8</option>
+          <option value={.9}>9</option>
+          <option value={.9}>10</option>
+        </select>
+        <br></br>
+        <input onClick={calculateDance} type="submit" value="Submit"/>
+      </div>
+    </div>
   );
 };
-
-const Container = styled.div`
-  display: block;
-  height: 100%;
-  width: 100%;
-  font-family: "Raleway";
-  font-size: 25px;
-  padding: .1px 10px;
-  color: white;
-  background: url('https://images.pexels.com/photos/341858/pexels-photo-341858.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat ;
-  background-size: cover;
-  img {
-    height: 20vh;
-    width: 20vh;
-    float: left;
-    margin: 20px 100px;
-  }
-  small {
-    font-size: 10px;
-  }
-
-  input {
-    align-items: center;
-    appearance: none;
-    background-color: #fff;
-    border-radius: 24px;
-    border-style: none;
-    color: #3c4043;
-    cursor: pointer;
-    display: inline-flex;
-    fill: currentcolor;
-    font-family: Roboto,Arial;
-    font-size: 14px;
-    font-weight: 200;
-    height: 45px;
-    justify-content: center;
-    letter-spacing: .8px;
-    line-height: normal;
-    max-width: 100%;
-    overflow: visible;
-    padding: 10px 20px;
-    
-  }
-  select 
-  {
-    width: 100%;
-    max-width: 200px;
-    height: 38px;
-    padding: 5px 30px;
-    font-size: 15px;
-    color: black;
-    background-color: #ffffff;
-    border: 2px solid #cccccc;
-  }
-`;
