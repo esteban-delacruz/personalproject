@@ -37,7 +37,7 @@ function Spotify() {
       }
       dispatch({type:reducerCases.SET_USER, userInfo})
     };
-    getUserInfo();
+    // getUserInfo();
   }, [token, dispatch]);
    //searching songs or albums or etc
    const onSearch = async()=>{

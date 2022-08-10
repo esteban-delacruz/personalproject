@@ -9,7 +9,6 @@ export default function Me() {
   let userNumber = .52; 
   let distance = 10;
 
-
   // Grabbing About Me
   const [userName, setUserName] = useState("");
   const [userProfileImage, setProfileImage] = useState();
@@ -23,80 +22,68 @@ export default function Me() {
 
   useEffect(() => {
     const getUserData = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/",
-        {
+      return await axios.get("https://api.spotify.com/v1/me/", {
           headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
-        }
-      );
-      //console.log(response.data);
-      setUserName(response.data.display_name);
-      setProfileImage(response.data.images[0] ? response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');
+        }).then((response) => {
+          setUserName(response.data.display_name);
+          setProfileImage(response.data.images[0] ? 
+            response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');    
+        });
     };
 
     const getTopTracks = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/top/tracks",
-        {
+      return await axios.get("https://api.spotify.com/v1/me/top/tracks", {
           headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
         }
-      );
-      for(let i = 0;i<response.data.items.length;i++)
-      {
-        getTrackAudioFeatures(response.data.items[i].id);
-      }
-      calculateDance();
+      ).then((response) => {
+        for(let i = 0;i<response.data.items.length;i++)
+        {
+          getTrackAudioFeatures(response.data.items[i].id);
+        }
+      });
     };
 
     const getTrackAudioFeatures = async (id) => {
-      const response = await axios.get(
-        `https://api.spotify.com/v1/audio-features/${id}`,
-        {
+      return await axios.get(`https://api.spotify.com/v1/audio-features/${id}`, {
           headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
         }
-      );
-      setDanceabilities(danceabilities => [...danceabilities,response.data.danceability]);
-
+      ).then((response) => {
+        setDanceabilities(danceabilities => [...danceabilities, response.data.danceability]);
+      });
     };
 
     getUserData();
     getTopTracks();
 
-    const calculateDance = () => 
-    {
-      let i = 0; let j =0;
-      while(true)
-      {
-        let newDistance = Math.abs(danceabilities[i]-userNumber);
-        if(i===danceabilities.length)
-        {
-          break;
-        }
-        else if(distance > newDistance)
-        {
-          distance = newDistance;
-          j=i;
-          i=0;
-          continue;
-        }       
-        else
-        {
-          i++;
-        }
-      }
-      console.log(userNumber, j, danceabilities);
-    }
-
   }, [token, dispatch]);
+  
+  const calculateDance = () => {
+    let i = 0; let j = 0;
+    while (true) {
+      let newDistance = Math.abs(danceabilities[i] - userNumber);
+      if (i === danceabilities.length) {
+        break;
+      } else if (distance > newDistance) {
+        distance = newDistance;
+        j = i;
+        i = 0;
+        continue;
+      } else {
+        i++;
+      }
+    }
+  };
+
+  calculateDance();
 
   return (
     <Container>
