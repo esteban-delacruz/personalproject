@@ -83,14 +83,9 @@ export default function Me() {
     }
   };
 
-  calculateDance();
-
   return (
     <Container>
       <h1>Hey Welcome, {userName}!</h1>
-       {/* <ul>
-        {danceabilities.map(items => <li> {items} </li>)}
-      </ul> */}
       <img src={userProfileImage} />
       <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
       <select name="dance" id="dance">
@@ -106,7 +101,6 @@ export default function Me() {
         <option value="10">10</option>
       </select>
       <input type="submit" value="Submit"/>
-      
     </Container>
   );
 };
