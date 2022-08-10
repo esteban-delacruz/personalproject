@@ -33,7 +33,7 @@ function Spotify() {
       const userInfo = {
         userId : data.id, 
         userName:data.display_name,
-        imgUrl:data.images[0].url, 
+        imgUrl: data.images[0] ? data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg', 
       }
       dispatch({type:reducerCases.SET_USER, userInfo})
     };

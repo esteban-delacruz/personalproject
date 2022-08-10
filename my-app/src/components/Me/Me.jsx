@@ -105,7 +105,7 @@ export default function Me() {
         {danceabilities.map(items => <li> {items} </li>)}
       </ul> */}
       <img src={userProfileImage} />
-      <label for="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
+      <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
       <select name="dance" id="dance">
         <option value="1">1</option>
         <option value="2">2</option>

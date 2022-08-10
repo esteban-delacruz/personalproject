@@ -5,7 +5,7 @@ import PlayBack from "./PlayBack";
 export default function Footer() {
   return (
     <Container>
-      <PlayBack/>
+      {/* <PlayBack/> */}
     </Container>
   );
 }
