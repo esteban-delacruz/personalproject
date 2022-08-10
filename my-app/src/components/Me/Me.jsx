@@ -6,7 +6,7 @@ import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
   const [{ token }, dispatch] = useStateProvider();
-  let userNumber = .37; 
+  let userNumber = .52; 
   let distance = 10;
 
 
@@ -51,6 +51,7 @@ export default function Me() {
       {
         getTrackAudioFeatures(response.data.items[i].id);
       }
+      calculateDance();
     };
 
     const getTrackAudioFeatures = async (id) => {
@@ -64,25 +65,26 @@ export default function Me() {
         }
       );
       setDanceabilities(danceabilities => [...danceabilities,response.data.danceability]);
+
     };
 
     getUserData();
     getTopTracks();
 
-    const calculateDance = async () => 
+    const calculateDance = () => 
     {
       let i = 0; let j =0;
       while(true)
       {
         let newDistance = Math.abs(danceabilities[i]-userNumber);
-        if(i==danceabilities.length)
+        if(i===danceabilities.length)
         {
           break;
         }
         else if(distance > newDistance)
         {
           distance = newDistance;
-          j=i+1;
+          j=i;
           i=0;
           continue;
         }       
@@ -91,9 +93,9 @@ export default function Me() {
           i++;
         }
       }
-      console.log(userNumber, j);
+      console.log(userNumber, j, danceabilities);
     }
-    calculateDance();
+
   }, [token, dispatch]);
 
   return (
@@ -102,8 +104,8 @@ export default function Me() {
        {/* <ul>
         {danceabilities.map(items => <li> {items} </li>)}
       </ul> */}
-      <h3>
-      <label for="dance">On a scale of 1(Less) to 10(More)<br></br> How much are you wanting to dance: </label></h3><br></br>
+      <img src={userProfileImage} />
+      <label for="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
       <select name="dance" id="dance">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -117,66 +119,62 @@ export default function Me() {
         <option value="10">10</option>
       </select>
       <input type="submit" value="Submit"/>
-      <img src={userProfileImage} />
+      
     </Container>
   );
 };
 
 const Container = styled.div`
-  height: 500px;
-  font-family: "Raleway";
-  font-size: 30px;
+  display: block;
+  height: 100%;
   width: 100%;
+  font-family: "Raleway";
+  font-size: 25px;
+  padding: .1px 10px;
   color: white;
-  background-color: #181818;
-  border-top: 1px solid #282828;
-  text-align: center;
-  
-  justify-content: center;
+  background: url('https://images.pexels.com/photos/341858/pexels-photo-341858.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat ;
+  background-size: cover;
   img {
     height: 20vh;
     width: 20vh;
+    float: left;
+    margin: 20px 100px;
   }
+  small {
+    font-size: 10px;
+  }
+
   input {
     align-items: center;
     appearance: none;
     background-color: #fff;
     border-radius: 24px;
     border-style: none;
-    box-shadow: rgb(0 0 0 / 20%) 0 3px 5px -1px, rgb(0 0 0 / 14%) 0 6px 10px 0, rgb(0 0 0 / 12%) 0 1px 18px 0;
-    box-sizing: border-box;
     color: #3c4043;
     cursor: pointer;
     display: inline-flex;
     fill: currentcolor;
-    font-family: "Google Sans",Roboto,Arial,sans-serif;
+    font-family: Roboto,Arial;
     font-size: 14px;
-    font-weight: 500;
-    height: 48px;
+    font-weight: 200;
+    height: 45px;
     justify-content: center;
-    letter-spacing: .25px;
+    letter-spacing: .8px;
     line-height: normal;
     max-width: 100%;
     overflow: visible;
-    padding: 2px 24px;
-    position: relative;
-    text-align: center;
-    text-transform: none;
+    padding: 10px 20px;
+    
   }
   select 
   {
-    display: flex;
     width: 100%;
-    max-width: 300px;
-    height: 40px;
-    float: none;
-    
-    padding: 0px 30px;
-    font-size: 19px;
-    
+    max-width: 200px;
+    height: 38px;
+    padding: 5px 30px;
+    font-size: 15px;
     color: black;
     background-color: #ffffff;
     border: 2px solid #cccccc;
-    
   }
 `;
