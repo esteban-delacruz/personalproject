@@ -5,23 +5,7 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { reducerCases } from "../utils/Constant";
 import axios from "axios";
 function Body({ headerBackground }) {
-  const [{ token, selectedPlaylist, selectedPlaylistId  }, dispatch] =
-    useStateProvider();
-    // useEffect(()=>{
-    //   const getSeveralAlbums =async()=>{
-    //     const response = await axios.get(
-    //       ` https://api.spotify.com/v1/browse/new-releases`,
-    //       {
-    //         headers: {
-    //           Authorization: "Bearer " + token,
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     );
-    //     console.log(response.data); 
-    //   }
-    //   getSeveralAlbums()
-    // },[token])
+  const [{ token, selectedPlaylist, selectedPlaylistId  }, dispatch] = useStateProvider();
   useEffect(() => {
     const getInitialPlaylist = async () => {
       const response = await axios.get(
@@ -56,14 +40,7 @@ function Body({ headerBackground }) {
     getInitialPlaylist();
   }, [token, dispatch, selectedPlaylistId]);
 // track play
-  const playTrack = async (
-    id,
-    name,
-    artists,
-    image,
-    context_uri,
-    track_number
-  ) => {
+  const playTrack = async (id, name, artists, image, context_uri, track_number) => {
     const response = await axios.put(
       `https://api.spotify.com/v1/me/player/play`,
       {

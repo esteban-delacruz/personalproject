@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import SpotifyPlayer from 'react-spotify-web-playback';
+import Footer from "../Footer";
 import styles from "./me.css";
 import { useStateProvider } from "../../utils/StateProvider";
+
 
 export default function Me() {
   const [{ token }, dispatch] = useStateProvider();
@@ -18,8 +20,9 @@ export default function Me() {
   const [audioFeatures, setAudioFeatures] = useState("");
   const [danceabilities, setDanceabilities ] = useState([]);
 
-  //
+  // Grabbing DanceValue from Event Listener
   const [danceValue, setDanceValue] = useState(0);
+  const [uri, setUri] = useState("");
 
   useEffect(() => {
     const getUserData = async () => {
@@ -64,7 +67,6 @@ export default function Me() {
 
     getUserData();
     getTopTracks();
-    
   }, [token, dispatch]);
   
   const calculateDance = () => {
@@ -83,8 +85,12 @@ export default function Me() {
         i++;
       }
     }
-    console.log(topTracks[j].name);
+    setUri(topTracks[j].uri);
+    console.log(uri);
+    //console.log(topTracks[j].name);
+    //console.log(topTracks[j].album.images[0].url);  //GRABS URL
   }; 
+
 
   const onSelectDanceValue = (event) => {
     setDanceValue(event.target.value)
@@ -94,7 +100,7 @@ export default function Me() {
     <div className='main-container'>
       <div className='main-content'>
         <h1>Hey Welcome, {userName}!</h1>
-        <img alt = 'profileImage'src={userProfileImage} />
+        <img className='img1' alt = 'profileImage'src={userProfileImage} />
         <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
         <select onChange={onSelectDanceValue} name="dance" id="dance">
           <option value={.1}>1</option>
@@ -111,6 +117,11 @@ export default function Me() {
         <br></br>
         <input onClick={calculateDance} type="submit" value="Submit"/>
       </div>
+      <div className="spotify-footer">
+        <Footer
+         uri = {uri}/>
+      </div>
     </div>
-  );
+    
+  )
 };
