@@ -21,7 +21,9 @@ export default function Me() {
 
   // Grabbing DanceValue from Event Listener
   const [danceValue, setDanceValue] = useState(0);
-  const [uri, setUri] = useState("");
+  const [uri, setUri] = useState("spotify:track:4iV5W9uYEdYUVa79Axb7Rh");
+  const [state, setState] = useState("false");
+  
 
   useEffect(() => {
     const getUserData = async () => {
@@ -68,23 +70,19 @@ export default function Me() {
   }, [token, dispatch]);
   
   const calculateDance = () => {
-    let i = 0; let j = 0;
+    let j = 0;
     let distance = 1;
-    while (true) {
-      let newDistance = Math.abs(danceabilities[i] - danceValue);
-      if (i === danceabilities.length) {
-        break;
-      } else if (distance > newDistance) {
+    for(let i=0;i<danceabilities.length;i++) 
+    {
+      let newDistance = Math.abs(danceabilities[i] - danceValue)
+      if(distance > newDistance) {
+        j=i;
         distance = newDistance;
-        j = i;
-        i = 0;
         continue;
-      } else {
-        i++;
       }
     }
     setUri(topTracks[j].uri);
-    console.log(uri);
+    setState("true");
   }; 
 
   const onSelectDanceValue = (event) => {
@@ -113,9 +111,11 @@ export default function Me() {
         <input onClick={calculateDance} type="submit" value="Submit"/>
       </div>
       <div className="spotify-footer">
-        <Footer uri={uri} />
+        <Footer uri={uri} state = {state} />
       </div>
     </div>
     
   )
 };
+
+

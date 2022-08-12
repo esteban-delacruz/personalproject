@@ -2,41 +2,38 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import { useStateProvider } from '../utils/StateProvider';
-import { reducerCases } from "../utils/Constant";
 
-function PlayBack({uri}) {
+function PlayBack( {uri,state} ) {
   const [{ token, selectedUri }, dispatch] = useStateProvider();
-  const [playerState, setPlayerState] = useState(false);
   
   useEffect(() => {
-    const getLastPlayedTrack = async () => {
-      const response = await axios.put(
-        `https://api.spotify.com/v1/me/player/play`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }, {
-          uris: ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh"]
-        }
-      );
-      dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
-    };
-    
-    getLastPlayedTrack(); 
+
+    // const getLastPlayedTrack = async () => {
+    //   const response = await axios.put(
+    //     `https://api.spotify.com/v1/me/player/play`, {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: "Bearer " + token,
+    //       },
+    //     }, {
+    //       uris: ["spotify:track:5PE2TkQKrgcLZupVGe5Pxu"]
+    //     }
+    //   );
+    //   dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+    // };
+    //getLastPlayedTrack(); 
   }, [token, dispatch])
 
   return (
     <SpotifyPlayer
       token={token}
-      uris="spotify:track:4iV5W9uYEdYUVa79Axb7Rh"
+      play={state}
+      uris= {uri}
       magnifySliderOnHover
       showSaveIcon
-      //name={"Web Player"}
       initialVolume={.5}
       syncExternalDevice= {true}
-      autoPlay={true}
-      play={playerState}
+      autoPlay={false}
       styles={
         {
         bgColor: '#181818',
