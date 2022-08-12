@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PlayBack from "./PlayBack";
 
-
-export default function Footer() {
-  const [uri, setUri] = useState("");
-  //console.log(uri);
+export default function Footer({uri}) {
   return (
     <div>
-      <PlayBack
-      uri = {uri}/>
+      <PlayBack uri={uri} />
     </div>
   );
 }
