@@ -22,8 +22,8 @@ export default function Me() {
   // Grabbing DanceValue from Event Listener
   const [danceValue, setDanceValue] = useState(0);
   const [uri, setUri] = useState("spotify:track:4iV5W9uYEdYUVa79Axb7Rh");
-  const [state, setState] = useState("false");
-  
+  const [state, setState] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState("");
 
   useEffect(() => {
     const getUserData = async () => {
@@ -33,19 +33,23 @@ export default function Me() {
             "Content-Type": "application/json",
           },
         }).then((response) => {
-          setUserName(response.data.display_name);
+          setUserName(response.data.display_name);    
           setProfileImage(response.data.images[0] ? response.data.images[0].url : 'https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg');    
         });
     };
 
     const getTopTracks = async () => {
       return await axios.get("https://api.spotify.com/v1/me/top/tracks", {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+              params: { 
+                limit: 50
+              } 
+            }
       ).then((response) => {
+        console.log(response);
         setTopTracks(response.data.items);
         for(let i = 0;i<response.data.items.length;i++) {
           getTrackAudioFeatures(response.data.items[i].id);
@@ -72,6 +76,7 @@ export default function Me() {
   const calculateDance = () => {
     let j = 0;
     let distance = 1;
+    
     for(let i=0;i<danceabilities.length;i++) 
     {
       let newDistance = Math.abs(danceabilities[i] - danceValue)
@@ -81,8 +86,10 @@ export default function Me() {
         continue;
       }
     }
+    setBackgroundImage(topTracks[j].album.images[0].url);
     setUri(topTracks[j].uri);
-    setState("true");
+    setState(true);
+    console.log(danceabilities,j)
   }; 
 
   const onSelectDanceValue = (event) => {
@@ -91,6 +98,7 @@ export default function Me() {
 
   return (
     <div className='main-container'>
+      <div className='album-art' style={ {backgroundImage: `url(${backgroundImage})`}}></div>
       <div className='main-content'>
         <h1>Hey Welcome, {userName}!</h1>
         <img className='img1' alt='profileImage' src={userProfileImage} />
@@ -105,7 +113,7 @@ export default function Me() {
           <option value={.7}>7</option>
           <option value={.8}>8</option>
           <option value={.9}>9</option>
-          <option value={.9}>10</option>
+          <option value={1}>10</option>
         </select>
         <br></br>
         <input onClick={calculateDance} type="submit" value="Submit"/>

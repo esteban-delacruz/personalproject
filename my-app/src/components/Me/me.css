@@ -1,16 +1,24 @@
 .main-container {
-    height: 100vh;
-    width: 100%;
-    font-family: "Raleway";
-    font-size: 25px;
-    color: white;
-    background: linear-gradient(-180deg, black, transparent);
-    background-color: rgb(128,128,128);
-    background-size: cover;
-    
-    justify-content: center;
-    align-items: baseline;
-    text-align: center;
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  font-family: 'Aboreto', cursive;
+  font-size: 25px;
+  color: white;
+  justify-content: center;
+  align-items: baseline;
+  text-align: center;
+}
+.album-art {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  filter: blur(8px);
+  background: linear-gradient(-180deg, black, transparent);
+  background-color: rgb(128,128,128);
+  background-size: cover;
 }
 .main-content {
     display: flex;
