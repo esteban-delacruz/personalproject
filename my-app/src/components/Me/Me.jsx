@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import SpotifyPlayer from 'react-spotify-web-playback';
 import Footer from "../Footer";
-import styles from "./me.css";
+import "./me.css";
 import { useStateProvider } from "../../utils/StateProvider";
 
 export default function Me() {
@@ -16,7 +15,7 @@ export default function Me() {
   const [topTracks, setTopTracks] = useState([]);
 
   // Grabbing Audio Features
-  const [audioFeatures, setAudioFeatures] = useState("");
+  //const [audioFeatures, setAudioFeatures] = useState("");
   const [danceabilities, setDanceabilities ] = useState([]);
 
   // Grabbing DanceValue from Event Listener
@@ -49,7 +48,6 @@ export default function Me() {
               } 
             }
       ).then((response) => {
-        console.log(response);
         setTopTracks(response.data.items);
         for(let i = 0;i<response.data.items.length;i++) {
           getTrackAudioFeatures(response.data.items[i].id);
@@ -89,7 +87,6 @@ export default function Me() {
     setBackgroundImage(topTracks[j].album.images[0].url);
     setUri(topTracks[j].uri);
     setState(true);
-    console.log(danceabilities,j)
   }; 
 
   const onSelectDanceValue = (event) => {
@@ -102,18 +99,18 @@ export default function Me() {
       <div className='main-content'>
         <h1>Hey Welcome, {userName}!</h1>
         <img className='img1' alt='profileImage' src={userProfileImage} />
-        <label htmlFor="dance">On a scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
+        <label htmlFor="dance">On as scale of 1<small>(Less)</small> to 10<small>(More)</small>. How much are you wanting to dance: </label><br></br>
         <select onChange={onSelectDanceValue} name="dance" id="dance">
-          <option value={.1}>1</option>
-          <option value={.2}>2</option>
-          <option value={.3}>3</option>
-          <option value={.4}>4</option>
+          <option value={.3}>1</option>    
+          <option value={.35}>2</option>
+          <option value={.4}>3</option>
+          <option value={.45}>4</option>
           <option value={.5}>5</option>
-          <option value={.6}>6</option>
-          <option value={.7}>7</option>
-          <option value={.8}>8</option>
-          <option value={.9}>9</option>
-          <option value={1}>10</option>
+          <option value={.55}>6</option>
+          <option value={.6}>7</option>
+          <option value={.65}>8</option>
+          <option value={.75}>9</option>
+          <option value={.85}>10</option>
         </select>
         <br></br>
         <input onClick={calculateDance} type="submit" value="Submit"/>

@@ -1,5 +1,3 @@
-import styled from "styled-components";
-import Footer from "./Footer";
 import Me from "./Me/Me"
 
 function Spotify() {
@@ -9,9 +7,6 @@ function Spotify() {
       <div className="spotify__body">
         <Me/>
       </div>
-      {/* <div className="spotify-footer">
-        <Footer/>
-      </div> */}
     </div>
   );
 
